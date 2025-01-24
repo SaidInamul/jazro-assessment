@@ -1,5 +1,6 @@
 <script setup>
   import pokemonCard from '@/components/pokemon-card.vue'
+  import pokemonTypeBadge from '@/components/pokemon-type-badge.vue';
   import { usePokemon } from '@/stores/usePokemon'
 
   const pokemonStore = usePokemon()
@@ -7,7 +8,7 @@
 </script>
 
 <template>
-  <div class="container text-center mt-5">
+  <div class="container text-center mt-5 mb-5">
     <div class="row text-center">
       <div class="col">
         <p class="fs-1">Welcome Back !</p>
@@ -31,20 +32,17 @@
       <div v-else class="col">
         <div class="row">
           <div class="col">
-            <span
-              class="badge rounded-pill text-bg-light m-2"
+            <pokemonTypeBadge
               v-for="(type, index) in pokemonStore.pokemonTypes"
+              :type="type"
               :key="index"
-            >
-              {{ type }}
-            </span>
+            />
           </div>
         </div>
         <div class="row mt-3 g-5 justify-content-center">
           <pokemonCard v-for="pokemon in pokemonStore.pokemonList" :pokemon="pokemon" :key="pokemon.id" class="col-6 col-sm-6 col-md-4 col-lg-3 me-1 me-sm-5" />
         </div>
       </div>
-      
     </div>
   </div>
 </template>

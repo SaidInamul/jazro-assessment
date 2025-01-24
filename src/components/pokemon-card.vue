@@ -1,5 +1,6 @@
 <script setup>
     import { defineProps } from 'vue';
+    import pokemonTypeBadge from './pokemon-type-badge.vue';
 
     defineProps ({
         pokemon : {
@@ -13,13 +14,15 @@
         <img :src="pokemon.sprites.front_default" class="mx-auto d-block" style="height: 100px; width: 100px;" alt="pokemon sprites">
         <div class="card-body">
             <p class="card-title text-capitalize fw-medium fs-4">{{ pokemon.name }}</p>
-            <span
-                v-for="(types, index) in pokemon.types"
-                class="badge rounded-pill text-dark bg-body-tertiary m-2"
-                :key="index"
-            >
-            {{ types.type.name }}
-            </span>
+            <div class="d-flex justify-content-center">
+                <div v-for="(types, index) in pokemon.types" :key="index">
+                    <pokemonTypeBadge
+                    v-for="(type, index) in types"
+                    :type="type.name"
+                    :key="index"
+                />
+                </div>
+            </div>
             <p class="card-text"></p>
             <a href="#" class="btn btn-primary bg-gradient btn-sm">
                 See more <i class="bi bi-caret-right-fill"></i>
