@@ -7,7 +7,14 @@ export const usePokemon = defineStore('pokemonStore', {
         loading: false,
         error: null,
     }),
-    getters : {},
+    getters : {
+        pokemonTypes () {
+            const types = this.pokemonList.flatMap((pokemon) => 
+                pokemon.types.map((type) => 
+                    type.type.name))
+            return [...new Set(types)]
+        }
+    },
     actions : {
         async fetchPokemons() {
             this.loading = true
@@ -25,11 +32,11 @@ export const usePokemon = defineStore('pokemonStore', {
                         )
                             .then((details) => {
                                 this.pokemonList = details;
-                                this.loading = false
                             })
                             .catch((error) => {
                                 console.log("Error : " + error);
-                            });
+                            })
+                            .finally(() => this.loading = false);
                     });
             } catch (error) {
                 console.error("Error fetching Pokémon data:", error);

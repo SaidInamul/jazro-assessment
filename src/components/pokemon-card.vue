@@ -2,21 +2,39 @@
     import { defineProps } from 'vue';
 
     defineProps ({
-        pokemonName : {
-            type : String,
+        pokemon : {
+            type : Object,
         }
     })
 </script>
 
 <template>
-    <div class="card">
-        <img src="..." class="card-img-top" alt="...">
+    <div class="card card-hover">
+        <img :src="pokemon.sprites.front_default" class="mx-auto d-block" style="height: 100px; width: 100px;" alt="pokemon sprites">
         <div class="card-body">
-            <h5 class="card-title">{{ pokemonName }}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary bg-gradient">
+            <p class="card-title text-capitalize fw-medium fs-4">{{ pokemon.name }}</p>
+            <span
+                v-for="(types, index) in pokemon.types"
+                class="badge rounded-pill text-dark bg-body-tertiary m-2"
+                :key="index"
+            >
+            {{ types.type.name }}
+            </span>
+            <p class="card-text"></p>
+            <a href="#" class="btn btn-primary bg-gradient btn-sm">
                 See more <i class="bi bi-caret-right-fill"></i>
             </a>
         </div>
     </div>
 </template>
+
+<style scoped>
+    .card-hover {
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .card-hover:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+</style>
