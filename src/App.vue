@@ -10,6 +10,4 @@ import vueFooter from './components/vue-footer.vue';
     <RouterView />
   </div>
   <vueFooter />
-
-  
 </template>

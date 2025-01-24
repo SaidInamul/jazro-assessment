@@ -3,6 +3,5 @@
 </script>
 
 <template>
-    <PokemonCard pokemonName="some name of the pokemon" />
-
+    pokemon details...
 </template>
