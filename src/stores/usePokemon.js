@@ -4,6 +4,9 @@ import axios from "axios"
 export const usePokemon = defineStore('pokemonStore', {
     state: () => ({
         pokemonList: [],
+        pokemon: {},
+        species: {},
+        pokemonUpdated: [],
         loading: false,
         error: null,
     }),
@@ -13,6 +16,9 @@ export const usePokemon = defineStore('pokemonStore', {
                 pokemon.types.map((type) => 
                     type.type.name))
             return [...new Set(types)]
+        },
+        types () {
+            return this.pokemon?.types ? this.pokemon.types.map(type => type.type.name) : []
         }
     },
     actions : {
@@ -34,14 +40,52 @@ export const usePokemon = defineStore('pokemonStore', {
                                 this.pokemonList = details;
                             })
                             .catch((error) => {
-                                console.log("Error : " + error);
+                                console.log("Error : " + error)
                             })
-                            .finally(() => this.loading = false);
+                            .finally(() => this.loading = false)
                     });
             } catch (error) {
-                console.error("Error fetching Pokémon data:", error);
+                console.error("Error fetching Pokémon data:", error)
             }
         },
+
+        async show (id) {
+            this.loading = true
+            try {
+                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+                this.pokemon = response.data;
+            } catch (error) {
+                console.error("Error fetching Pokémon data:", error)
+                this.pokemon = {}
+            } finally {
+                this.loading = false
+            }
+        },
+
+        async showSpecies (id) {
+            try {
+                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+                this.species = response.data;
+            } catch (error) {
+                console.error("Error fetching Pokémon data:", error)
+                this.species = {}
+            }
+        },
+
+        async fetchAbility (name) {
+            try {
+                const response = await axios.get(`https://pokeapi.co/api/v2/ability/${name}`)
+                const ability = response.data
+                const effectEntries = ability.effect_entries
+                return effectEntries.find(entry => entry.language.name === 'en');
+            } catch {
+                console.error("Error fetching Pokémon data:", error)
+            }
+        },
+
+        update (id) {
+            console.log('updating the pokemon...')
+        }
     },
 
 })

@@ -24,9 +24,9 @@
                 </div>
             </div>
             <p class="card-text"></p>
-            <a href="#" class="btn btn-primary bg-gradient btn-sm">
+            <router-link :to="{ name: 'pokemon', params: { pokemon: pokemon.id } }" class="btn btn-primary bg-gradient btn-sm">
                 See more <i class="bi bi-caret-right-fill"></i>
-            </a>
+            </router-link>
         </div>
     </div>
 </template>
