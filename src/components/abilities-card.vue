@@ -13,7 +13,6 @@
 
     onMounted(async () => {
         desc.value = await pokemonStore.fetchAbility(props.ability.ability.name)
-        console.log(desc.effect)
     })
 </script>
 
@@ -21,6 +20,10 @@
     <div class="row border-bottom pb-3">
         <p class="card-title fw-bold fs-5 text-capitalize">{{ ability.ability.name }}:</p>
         <p class="card-text fw-light text-secondary" v-if="desc">{{ desc.effect }}</p>
-        <p v-else class="card-text fw-light text-secondary">No description available. Retrying...</p>
+        <div class="text-center" v-else>
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
 </template>

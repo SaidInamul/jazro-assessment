@@ -47,6 +47,12 @@
             </div>
             <cardBodyContent :pokemon="pokemon.weight" />
         </div>
+        <div class="row border-bottom mt-3">
+            <div class="col-4">
+                <p class="fw-bold fs-6">Color</p>
+            </div>
+            <cardBodyContent :pokemon="pokemonStore.species.color?.name" />
+        </div>
         <div class="row mt-3" style="margin-bottom: -1rem;">
             <div class="col-4">
                 <p class="fw-bold fs-6">Shapes</p>

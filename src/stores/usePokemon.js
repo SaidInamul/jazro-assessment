@@ -19,6 +19,17 @@ export const usePokemon = defineStore('pokemonStore', {
         },
         types () {
             return this.pokemon?.types ? this.pokemon.types.map(type => type.type.name) : []
+        },
+        eggGroup () {
+            return this.species?.egg_groups ? this.species.egg_groups.map(egg => egg.name) : []
+        },
+        genera () {
+            return this.species?.genera ? this.species.genera.find(genera => genera.language.name === 'en') : []
+        },
+        gender () {
+            const femalePercentage = (this.species?.gender_rate / 8) * 100
+            const malePercentage = 100 - femalePercentage
+            return { female: femalePercentage, male: malePercentage }
         }
     },
     actions : {
@@ -77,7 +88,7 @@ export const usePokemon = defineStore('pokemonStore', {
                 const response = await axios.get(`https://pokeapi.co/api/v2/ability/${name}`)
                 const ability = response.data
                 const effectEntries = ability.effect_entries
-                return effectEntries.find(entry => entry.language.name === 'en');
+                return effectEntries.find(entry => entry.language.name === 'en')
             } catch {
                 console.error("Error fetching Pokémon data:", error)
             }

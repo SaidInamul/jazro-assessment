@@ -4,6 +4,7 @@
     import pokemonCarousel from '@/components/pokemon-carousel.vue'
     import infoCard from '@/components/info-card.vue'
     import abilitiesCard from '@/components/abilities-card.vue'
+    import speciesCard from '@/components/species-card.vue'
 
     const pokemonStore = usePokemon()
 
@@ -35,11 +36,19 @@
                 <pokemonCarousel :pokemon="pokemonStore.pokemon" class="animate__animated animate__fadeInUp"/>
             </div>
             <div class="col animate__animated animate__fadeInUp">
-                <div class="card" style="width: 300px; margin: auto;">
+                <div class="card" style="width: 322px; margin: auto;">
                     <div class="card-header">
                         Pokemon Info
                     </div>
                     <infoCard :pokemon="pokemonStore.pokemon" />
+                </div>
+            </div>
+            <div class="col animate__animated animate__fadeInUp">
+                <div class="card" style="width: 400px; margin: auto;">
+                    <div class="card-header">
+                        Pokemon Species
+                    </div>
+                    <speciesCard :pokemon="pokemonStore.pokemon" />
                 </div>
             </div>
             <div class="col animate__animated animate__fadeInUp">
@@ -51,16 +60,6 @@
                         <abilitiesCard v-for="ability in pokemonStore.pokemon.abilities" :key="pokemonStore.pokemon.id" :ability="ability"/>
                     </div>
                 </div>
-                Pokemon abilities: name, simple description (can take from abilities)
-            </div>
-            <div class="col animate__animated animate__fadeInUp">
-                <div class="card" style="width: 400px; margin: auto;">
-                    <div class="card-header">
-                        Pokemon Species
-                    </div>
-                    <infoCard :pokemon="pokemonStore.pokemon" />
-                </div>
-                Pokemon species: color, egg-group, genus, habitat, growth_rate (can take from pokemon-species endpoint)
             </div>
             <div class="col-12 animate__animated animate__fadeInUp">
                 <div class="card">
