@@ -19,13 +19,12 @@
 </script>
 
 <template>
-    <div class="card-body">
+    <div class="card-body text-capitalize">
         <div class="row border-bottom">
             <div class="col-4">
                 <p class="fw-bold fs-6">Name</p>
             </div>
             <cardBodyContent :pokemon="pokemon.name" />
-            
         </div>
         <div class="row border-bottom mt-3">
             <div class="col-4">
@@ -37,13 +36,13 @@
         </div>
         <div class="row border-bottom mt-3">
             <div class="col-4">
-                <p class="fw-bold fs-6">Height</p>
+                <p class="fw-bold fs-6">Height (meter)</p>
             </div>
             <cardBodyContent :pokemon="pokemon.height" />
         </div>
         <div class="row border-bottom mt-3">
             <div class="col-4">
-                <p class="fw-bold fs-6">Weight</p>
+                <p class="fw-bold fs-6">Weight (kg)</p>
             </div>
             <cardBodyContent :pokemon="pokemon.weight" />
         </div>

@@ -6,6 +6,8 @@ export const usePokemon = defineStore('pokemonStore', {
         pokemonList: [],
         pokemon: {},
         species: {},
+        chain: null,
+        evolutionChain : [],
         pokemonUpdated: [],
         loading: false,
         error: null,
@@ -30,7 +32,7 @@ export const usePokemon = defineStore('pokemonStore', {
             const femalePercentage = (this.species?.gender_rate / 8) * 100
             const malePercentage = 100 - femalePercentage
             return { female: femalePercentage, male: malePercentage }
-        }
+        },
     },
     actions : {
         async fetchPokemons() {
@@ -58,6 +60,31 @@ export const usePokemon = defineStore('pokemonStore', {
             } catch (error) {
                 console.error("Error fetching Pokémon data:", error)
             }
+        },
+
+        filterPokemon (query) {
+            if (!query?.element && !query?.search) {
+                return this.pokemonList
+            }
+
+            // Filter by element type if provided
+            if (query?.element) {
+                const queryElementLower = query.element.toLowerCase();
+                return this.pokemonList.filter((pokemon) =>
+                    pokemon.types.some((type) => type.type.name === queryElementLower)
+                );
+            }
+
+            // Filter by Pokémon name if provided
+            if (query?.search) {
+                const querySearchLower = query.search.toLowerCase();
+                return this.pokemonList.filter((pokemon) =>
+                    pokemon.name.toLowerCase().includes(querySearchLower)
+                );
+            }
+
+            // Return the full list if no matching query type or search is found
+            return this.pokemonList;
         },
 
         async show (id) {
@@ -92,6 +119,40 @@ export const usePokemon = defineStore('pokemonStore', {
             } catch {
                 console.error("Error fetching Pokémon data:", error)
             }
+        },
+        
+        async fetchEvolution(id) {
+            await this.showSpecies(id);
+        
+            try {
+                const response = await axios.get(this.species.evolution_chain.url);
+                this.chain = await response.data
+
+                let currentChain = this.chain?.chain
+                const evolutionData = []
+
+                while (currentChain) {
+
+                    const url = currentChain?.species?.url
+                    const id = url.split('/').slice(-2, -1)[0]
+
+                    evolutionData.push({
+                        name: currentChain?.species?.name,
+                        sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
+                      })
+
+                    currentChain = currentChain?.evolves_to?.[0] || null
+                }
+
+                this.evolutionChain = evolutionData
+
+            } catch (error) {
+                console.error("Error fetching Pokémon data:", error);
+            }
+        },
+
+        searchPokemon () {
+
         },
 
         update (id) {

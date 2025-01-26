@@ -1,5 +1,25 @@
 <script setup>
-    import { RouterLink } from 'vue-router';
+    import { RouterLink, useRouter, useRoute } from 'vue-router';
+    import { ref, watch } from 'vue';
+
+    const router = useRouter();
+    const route = useRoute();
+    console.log(route)
+
+    const searchQuery = ref(route.query.search || '');
+
+    const handleSearch = () => {
+      router.push({
+        path: '/',
+        query: { ...route.query, search: searchQuery.value || undefined }, // Remove 'search' if empty
+      });
+    };
+    watch(searchQuery, (newValue) => {
+      router.push({
+        path: '/',
+        query: { ...route.query, search: newValue || undefined }, // Remove 'search' from query if it's empty
+      });
+    });
 </script>
 
 <template>
@@ -16,10 +36,21 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <form class="d-flex ms-auto" role="search">
-            <input class="form-control me-2 transparent-input text-white" type="search" placeholder="Search pokemon..." aria-label="Search">
-            <button class="btn btn-primary bg-gradient" type="submit">Search</button>
-          </form>
+          <div class="d-flex ms-auto" role="search" v-if="route.name === 'home'">
+            <input
+              
+              class="form-control me-2 transparent-input text-white"
+              type="search"
+              placeholder="Search pokemon..."
+              aria-label="Search"
+              v-model="searchQuery"
+
+              >
+            <button class="btn btn-primary bg-gradient" type="button" @click="handleSearch()">Search</button>
+          </div>
+          <div class="d-flex ms-auto" role="search" v-else>
+            <button class="btn btn-primary bg-gradient" type="button">Update pokemon</button>
+          </div>
         </div>
       </div>
     </nav>

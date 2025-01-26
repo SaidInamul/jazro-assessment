@@ -28,7 +28,7 @@
 
     const badgeColor = (type) => {
         const typeObj = pokemonBadgeColor.find(item => item[type]);
-        return typeObj ? typeObj[type] : '#FFFFFF';
+        return typeObj ? typeObj[type] : '#3c3c3c';
     }
 </script>
 

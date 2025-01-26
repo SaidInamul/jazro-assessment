@@ -2,12 +2,19 @@
   import pokemonCard from '@/components/pokemon-card.vue'
   import pokemonTypeBadge from '@/components/pokemon-type-badge.vue';
   import { usePokemon } from '@/stores/usePokemon'
-
+  import { RouterLink, useRoute } from 'vue-router';
+  import { computed } from 'vue';
+  const route = useRoute()
   const pokemonStore = usePokemon()
+
+  const filteredPokemon = computed(() => {
+    return pokemonStore.filterPokemon(route.query);
+  });
 
 </script>
 
 <template>
+{{ route.query?.element }}
   <div class="container text-center mt-5 mb-5">
     <div class="row text-center animate__animated animate__fadeInUp">
       <div class="col">
@@ -32,16 +39,21 @@
       <div v-else class="col animate__animated animate__fadeInUp">
         <div class="row">
           <div class="col">
-            <pokemonTypeBadge
+            <router-link
+              :to="{ path: '/', query: { element: type } }"
               v-for="(type, index) in pokemonStore.pokemonTypes"
-              :type="type"
-              :key="index"
-            />
+              :key="index">
+              <pokemonTypeBadge :type="type" />
+            </router-link>
+            <router-link
+              to="/" >
+              <pokemonTypeBadge type="all" />
+            </router-link>
           </div>
         </div>
         <div class="row mt-3 g-5 justify-content-center animate__animated animate__fadeInUp">
           <pokemonCard
-            v-for="pokemon in pokemonStore.pokemonList"
+            v-for="pokemon in filteredPokemon"
             :pokemon="pokemon"
             :key="pokemon.id"
             class="col-6 col-sm-6 col-md-4 col-lg-3 me-1 me-sm-5" />

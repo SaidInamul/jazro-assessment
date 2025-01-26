@@ -48,7 +48,7 @@
                 <p class="fw-bold fs-6">Gender Rate</p>
             </div>
             <div class="col-8 d-flex" style="gap: 10px;">
-                <p>Female : {{ pokemonStore.gender.female }} Male : {{ pokemonStore.gender.male }}</p>
+                <p>Female {{ pokemonStore.gender.female }}% and Male {{ pokemonStore.gender.male }}%</p>
             </div>
         </div>
         <div class="row mt-3" style="margin-bottom: -1rem;">
