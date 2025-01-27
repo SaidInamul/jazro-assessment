@@ -4,6 +4,7 @@
   import { usePokemon } from '@/stores/usePokemon'
   import { RouterLink, useRoute } from 'vue-router';
   import { computed } from 'vue';
+
   const route = useRoute()
   const pokemonStore = usePokemon()
 
@@ -14,7 +15,6 @@
 </script>
 
 <template>
-{{ route.query?.element }}
   <div class="container text-center mt-5 mb-5">
     <div class="row text-center animate__animated animate__fadeInUp">
       <div class="col">

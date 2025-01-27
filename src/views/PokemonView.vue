@@ -6,6 +6,7 @@
     import abilitiesCard from '@/components/abilities-card.vue'
     import speciesCard from '@/components/species-card.vue'
     import evolutionCard from '@/components/evolution-card.vue'
+    import modifyCard from '@/components/modify-card.vue'
 
     const pokemonStore = usePokemon()
 
@@ -17,7 +18,6 @@
 
     onMounted(async () => {
         await pokemonStore.show(props.id)
-        console.log(pokemonStore.pokemon)
     })
 
 
@@ -37,7 +37,7 @@
                 <pokemonCarousel :pokemon="pokemonStore.pokemon" class="animate__animated animate__fadeInUp"/>
             </div>
             <div class="col-12 mt-5">
-                <div class="row">
+                <div class="row d-flex" style="row-gap: 3rem;">
                     <div class="col animate__animated animate__fadeInUp">
                         <div class="card" style="width: 322px; margin: auto;">
                             <div class="card-header">
@@ -65,16 +65,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-5">
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 animate__animated animate__fadeInUp">
+                <div class="row d-flex mt-5" style="row-gap: 3rem;">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 animate__animated animate__fadeInUp">
                         <div class="card">
                             <div class="card-header">
                                 Updated Pokemon Info
                             </div>
-                            <infoCard :pokemon="pokemonStore.pokemon" />
+                            <modifyCard :pokemon="pokemonStore.pokemon" />
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 animate__animated animate__fadeInUp">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 animate__animated animate__fadeInUp">
                         <div class="card">
                             <div class="card-header">
                                 Pokemon Evolution

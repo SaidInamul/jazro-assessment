@@ -122,7 +122,7 @@ export const usePokemon = defineStore('pokemonStore', {
         },
         
         async fetchEvolution(id) {
-            await this.showSpecies(id);
+            await this.showSpecies(id)
         
             try {
                 const response = await axios.get(this.species.evolution_chain.url);
@@ -147,17 +147,53 @@ export const usePokemon = defineStore('pokemonStore', {
                 this.evolutionChain = evolutionData
 
             } catch (error) {
-                console.error("Error fetching Pokémon data:", error);
+                console.error("Error fetching Pokémon data:", error)
             }
         },
 
-        searchPokemon () {
-
+        showInfo (id) {
+            return this.pokemonUpdated.find((pokemon) => pokemon.id === id)?.data || []
         },
 
-        update (id) {
-            console.log('updating the pokemon...')
-        }
+        storeInfo (id, newInfo) {
+            try {
+                const pokemon = this.pokemonUpdated.find((p) => p.id === id)
+
+                if (pokemon) {
+                    pokemon.data.push(newInfo)
+                } else {
+                    this.pokemonUpdated.push({ id, data: [newInfo] })
+                }
+
+            } catch (error) {
+                console.error("Error create Pokémon info:", error)
+            }
+            
+        },
+
+        updateInfo (id, index, updatedInfo) {
+
+            const pokemon = this.pokemonUpdated.find((p) => p.id === id)
+
+            if (pokemon) {
+                pokemon.data[index] = updatedInfo
+            }
+
+        },
+          
+        destroyInfo (id, index) {
+
+            const pokemon = this.pokemonUpdated.find((p) => p.id === id)
+
+            if (pokemon) {
+                pokemon.data.splice(index, 1)
+
+                if (pokemon.data.length === 0) {
+                    this.pokemonUpdated = this.pokemonUpdated.filter((p) => p.id !== id)
+                }
+            }
+
+        },
     },
 
 })

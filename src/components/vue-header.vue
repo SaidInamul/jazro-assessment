@@ -1,25 +1,31 @@
 <script setup>
-    import { RouterLink, useRouter, useRoute } from 'vue-router';
-    import { ref, watch } from 'vue';
+    import { RouterLink, useRouter, useRoute } from 'vue-router'
+    import { ref, watch } from 'vue'
 
-    const router = useRouter();
-    const route = useRoute();
-    console.log(route)
+    const router = useRouter()
+    const route = useRoute()
 
-    const searchQuery = ref(route.query.search || '');
+    const searchQuery = ref(route.query.search || '')
+    const waiting = ref(false)
 
     const handleSearch = () => {
       router.push({
         path: '/',
-        query: { ...route.query, search: searchQuery.value || undefined }, // Remove 'search' if empty
-      });
-    };
+        query: { ...route.query, search: searchQuery.value || undefined },
+      })
+    }
     watch(searchQuery, (newValue) => {
       router.push({
         path: '/',
-        query: { ...route.query, search: newValue || undefined }, // Remove 'search' from query if it's empty
-      });
-    });
+        query: { ...route.query, search: newValue || undefined },
+      })
+    })
+
+    const goToHome = async () => {
+        waiting.value = true
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        router.push({name : 'home'})
+    };
 </script>
 
 <template>
@@ -49,7 +55,23 @@
             <button class="btn btn-primary bg-gradient" type="button" @click="handleSearch()">Search</button>
           </div>
           <div class="d-flex ms-auto" role="search" v-else>
-            <button class="btn btn-primary bg-gradient" type="button">Update pokemon</button>
+            <button
+                class="btn btn-primary bg-gradient"
+                type="button"
+                :disabled="waiting"
+                v-if="waiting"
+                >
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span class="visually-hidden" role="status">Loading...</span>
+            </button>
+            <button
+                v-else
+                class="btn btn-primary bg-gradient"
+                @click="goToHome"
+                >
+                    Home <i class="bi bi-caret-right-fill"></i>
+            </button>
+            <!-- <router-link class="btn btn-primary bg-gradient" to="/">Back</router-link> -->
           </div>
         </div>
       </div>
